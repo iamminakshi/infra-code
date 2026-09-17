@@ -1,5 +1,4 @@
-
-name: Terraform Deployment
+name: Terraform Deployment Workflow
 
 on:
   push:
@@ -8,19 +7,20 @@ on:
 
   workflow_dispatch:
 
-jobs:
+permissions:
+  contents: read
 
+jobs:
   terraform:
     name: Terraform Plan
     runs-on: self-hosted
 
     steps:
-
-      # 1. Checkout repository
+      # Checkout code
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Login to Azure using Service Principal
+      # Login to Azure using Service Principal
       - name: Azure Login
         uses: azure/login@v2
         with:
@@ -32,23 +32,22 @@ jobs:
               "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
             }
 
-      # 3. Setup Terraform
+      # Install/setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # 4. Terraform Init
+      # Terraform Init
       - name: Terraform Init
         run: terraform init
 
-      # 5. Terraform Format Check
+      # Terraform Format
       - name: Terraform Format
         run: terraform fmt -check
 
-      # 6. Terraform Validate
+      # Terraform Validate
       - name: Terraform Validate
         run: terraform validate
 
-      # 7. Terraform Plan
+      # Terraform Plan
       - name: Terraform Plan
         run: terraform plan
-
