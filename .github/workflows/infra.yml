@@ -16,11 +16,22 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # Checkout code
+
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Login to Azure using Service Principal
+      - name: Check Runner
+        shell: powershell
+        run: |
+          Write-Host "Runner OS:"
+          Write-Host $env:RUNNER_OS
+          Write-Host "Runner Architecture:"
+          Write-Host $env:RUNNER_ARCH
+          Write-Host "Computer Name:"
+          hostname
+          Write-Host "Azure CLI:"
+          where.exe az
+
       - name: Azure Login
         uses: azure/login@v2
         with:
@@ -32,22 +43,17 @@ jobs:
               "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
             }
 
-      # Install/setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # Terraform Init
       - name: Terraform Init
         run: terraform init
 
-      # Terraform Format
       - name: Terraform Format
         run: terraform fmt -check
 
-      # Terraform Validate
       - name: Terraform Validate
         run: terraform validate
 
-      # Terraform Plan
       - name: Terraform Plan
         run: terraform plan
