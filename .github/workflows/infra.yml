@@ -1,5 +1,5 @@
 
-name: Terraform Plan
+name: Terraform Deployment
 
 on:
   push:
@@ -8,14 +8,11 @@ on:
 
   workflow_dispatch:
 
-permissions:
-  id-token: write
-  contents: read
-
 jobs:
+
   terraform:
     name: Terraform Plan
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
 
@@ -23,15 +20,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Login to Azure using OIDC
+      # 2. Login to Azure using Service Principal
       - name: Azure Login
-        uses: azure/login@v3
+        uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          creds: |
+            {
+              "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+              "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
+            }
 
-      # 3. Install Terraform
+      # 3. Setup Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
