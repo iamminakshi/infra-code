@@ -1,53 +1,53 @@
 
-# name: Terraform Plan
+name: Terraform Plan
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
-#   workflow_dispatch:
+  workflow_dispatch:
 
-# permissions:
-#   id-token: write
-#   contents: read
+permissions:
+  id-token: write
+  contents: read
 
-# jobs:
-#   terraform:
-#     name: Terraform Plan
-#     runs-on: ubuntu-latest
+jobs:
+  terraform:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
 
-#     steps:
+    steps:
 
-#       # 1. Checkout repository
-#       - name: Checkout
-#         uses: actions/checkout@v4
+      # 1. Checkout repository
+      - name: Checkout
+        uses: actions/checkout@v4
 
-#       # 2. Login to Azure using OIDC
-#       - name: Azure Login
-#         uses: azure/login@v3
-#         with:
-#           client-id: ${{ secrets.AZURE_CLIENT_ID }}
-#           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-#           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # 2. Login to Azure using OIDC
+      - name: Azure Login
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-#       # 3. Install Terraform
-#       - name: Setup Terraform
-#         uses: hashicorp/setup-terraform@v3
+      # 3. Install Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
-#       # 4. Terraform Init
-#       - name: Terraform Init
-#         run: terraform init
+      # 4. Terraform Init
+      - name: Terraform Init
+        run: terraform init
 
-#       # 5. Terraform Format Check
-#       - name: Terraform Format
-#         run: terraform fmt -check
+      # 5. Terraform Format Check
+      - name: Terraform Format
+        run: terraform fmt -check
 
-#       # 6. Terraform Validate
-#       - name: Terraform Validate
-#         run: terraform validate
+      # 6. Terraform Validate
+      - name: Terraform Validate
+        run: terraform validate
 
-#       # 7. Terraform Plan
-#       - name: Terraform Plan
-#         run: terraform plan
-# ```
+      # 7. Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
+
