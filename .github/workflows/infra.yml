@@ -3,8 +3,7 @@ name: Terraform Deployment Workflow
 on:
   push:
     branches:
-      - main
-
+      - master
   workflow_dispatch:
 
 permissions:
@@ -12,7 +11,7 @@ permissions:
 
 jobs:
   terraform:
-    name: Terraform Plan
+    name: Terraform Plan and apply
     runs-on: self-hosted
 
     steps:
