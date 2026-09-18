@@ -58,4 +58,7 @@ jobs:
         run: terraform plan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: |
+          terraform apply -auto-approve
+          Write-Host "Terraform apply completed with exit code: $LASTEXITCODE"
+          terraform state list
