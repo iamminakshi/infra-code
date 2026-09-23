@@ -13,7 +13,9 @@ permissions:
 jobs:
   terraform:
     runs-on: self-hosted
-
+environement:
+      name: production
+      url: ${{ steps.deploy-to-prod.outputs.webapp-url }}
     steps:
 
       - name: Checkout

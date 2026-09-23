@@ -59,3 +59,26 @@ container_registries = {
     admin_enabled       = false
   }
 }
+
+## application_gateways
+
+application_gateways = {
+
+  appgw1 = {
+    name                 = "poc-appgw-01"
+    location             = "Central US"
+    resource_group_name  = "poc-rg"
+    subnet_id            = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/poc-rg/providers/Microsoft.Network/virtualNetworks/poc-vnet/subnets/appgw-subnet"
+    public_ip_address_id = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/poc-rg/providers/Microsoft.Network/publicIPAddresses/poc-appgw-pip"
+
+    sku_name = "Standard_v2"
+    sku_tier = "Standard_v2"
+    capacity = 2
+
+    backend_ip_addresses = [
+      "10.0.2.10",
+      "10.0.2.11"
+    ]
+  }
+
+}
